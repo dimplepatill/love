@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lost in Love 💘</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Playfair Display', serif;
+}
+
+body{
+  height:100vh;
+  overflow:hidden;
+  position:relative;
+  background:black;
+}
+
+/* SLIDESHOW BACKGROUND */
+.slideshow{
+  position:fixed;
+  inset:0;
+  z-index:-3;
+}
+
+.slide{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:0;
+  animation:fadeZoom 25s infinite;
+}
+
+.slide:nth-child(1){ background-image:url("image/couple.jpg"); animation-delay:0s; }
+.slide:nth-child(2){ background-image:url("image/couple1.jpg"); animation-delay:5s; }
+.slide:nth-child(3){ background-image:url("image/couple2.jpg"); animation-delay:10s; }
+.slide:nth-child(4){ background-image:url("image/couple3.jpg"); animation-delay:15s; }
+.slide:nth-child(5){ background-image:url("image/couple4.jpg"); animation-delay:20s; }
+
+@keyframes fadeZoom{
+  0%{opacity:0; transform:scale(1);}
+  5%{opacity:1;}
+  20%{opacity:1; transform:scale(1.08);}
+  25%{opacity:0;}
+  100%{opacity:0;}
+}
+
+/* Dark Overlay */
+.overlay{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.4));
+  z-index:-2;
+}
+
+/* Floating Hearts */
+.heart{
+  position:absolute;
+  width:12px;
+  height:12px;
+  background:rgba(255,255,255,0.7);
+  transform:rotate(45deg);
+  animation:floatUp linear infinite;
+}
+.heart::before,
+.heart::after{
+  content:'';
+  position:absolute;
+  width:12px;
+  height:12px;
+  background:rgba(255,255,255,0.7);
+  border-radius:50%;
+}
+.heart::before{ top:-6px; }
+.heart::after{ left:-6px; }
+
+@keyframes floatUp{
+  from{ transform:translateY(100vh) rotate(45deg); opacity:0; }
+  to{ transform:translateY(-10vh) rotate(45deg); opacity:1; }
+}
+
+/* Main Content */
+#app{
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  z-index:2;
+}
+
+.card{
+  background:rgba(255,255,255,0.95);
+  padding:30px;
+  border-radius:20px;
+  text-align:center;
+  max-width:420px;
+  animation:fadeUp 1s ease;
+}
+
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+button{
+  border:none;
+  border-radius:30px;
+  padding:12px 28px;
+  margin:10px;
+  font-size:16px;
+  cursor:pointer;
+  background:linear-gradient(135deg,#ff9ab3,#ff6f91);
+  color:white;
+  transition:0.2s;
+}
+
+button:hover{
+  transform:scale(1.08);
+}
+
+.note{
+  background:rgba(255,255,255,0.95);
+  padding:40px;
+  border-radius:20px;
+  text-align:center;
+  max-width:520px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="slideshow">
+  <div class="slide"></div>
+  <div class="slide"></div>
+  <div class="slide"></div>
+  <div class="slide"></div>
+  <div class="slide"></div>
+</div>
+
+<div class="overlay"></div>
+<div id="app"></div>
+
+<script>
+const app = document.getElementById("app");
+
+/* Create floating hearts */
+for(let i=0;i<25;i++){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=6+Math.random()*6+"s";
+  document.body.appendChild(h);
+}
+
+setTimeout(showValentine,1500);
+
+function showValentine(){
+  const v=document.createElement("div");
+  v.className="card";
+  v.innerHTML=
+    '<h2 style="margin-bottom:20px;">Will you be my Valentine?</h2>' +
+    '<button id="yes">YES</button>' +
+    '<button id="no">NO</button>';
+
+  app.appendChild(v);
+
+  const no=document.getElementById("no");
+  const yes=document.getElementById("yes");
+
+  let yesScale=1;
+
+  no.onclick=function(){
+    no.style.position="absolute";
+    no.style.left=Math.random()*70+"%";
+    no.style.top=Math.random()*70+"%";
+    yesScale+=0.2;
+    yes.style.transform="scale("+yesScale+")";
+  };
+
+  yes.onclick=function(){
+    app.innerHTML="";
+    finalNote();
+  };
+}
+
+function finalNote(){
+  const n=document.createElement("div");
+  n.className="note";
+  n.innerHTML=
+    '<h3 style="margin-bottom:15px;">💌 A little note for you</h3>' +
+    '<p>You are my favourite place in this world.</p>' +
+    '<p>No matter where life takes us, I choose you.</p>' +
+    '<p>Every. Single. Time.</p>';
+
+  app.appendChild(n);
+}
+</script>
+
+</body>
+</html>
